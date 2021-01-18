@@ -5,8 +5,10 @@ import {
   Platform,
   TextInput,
   StyleSheet,
+  TextInputProps,
   InputAccessoryView,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import {RoundButton} from './RoundButton';
 
@@ -15,30 +17,41 @@ const COMPOSER_HEIGHT = 52;
 const COMPOSER_RADIUS = COMPOSER_HEIGHT / 2;
 const BUTTON_RADIUS = COMPOSER_RADIUS - BUTTON_OFFSET;
 
-type ComposerProps = {};
-export const Composer: React.FC<ComposerProps> = React.memo(({...props}) => {
-  const composer = (
-    <View style={s.container}>
-      <View>
-        <TextInput
-          multiline
-          scrollEnabled
-          style={s.textInput}
-          selectionColor={'#ccc'}
-        />
-        <RoundButton radius={BUTTON_RADIUS} style={s.button}>
-          <Text>{'send'}</Text>
-        </RoundButton>
+type ComposerProps = {
+  message: string;
+  onChangeMessage(text: string): void;
+} & Omit<TextInputProps, 'value' | 'onChangeText'>;
+export const Composer: React.FC<ComposerProps> = React.memo(
+  ({message, onChangeMessage, ...props}) => {
+    const composer = (
+      <View style={s.container}>
+        <View>
+          <TextInput
+            multiline
+            scrollEnabled
+            style={s.textInput}
+            selectionColor={'#ccc'}
+            {...props}
+            value={message}
+            onChangeText={onChangeMessage}
+          />
+          <RoundButton
+            disabled={!message}
+            radius={BUTTON_RADIUS}
+            style={s.button}>
+            <Icon name={'send'} color={'white'} size={25} style={s.icon} />
+          </RoundButton>
+        </View>
       </View>
-    </View>
-  );
+    );
 
-  if (Platform.OS === 'ios') {
-    return <InputAccessoryView>{composer}</InputAccessoryView>;
-  }
+    if (Platform.OS === 'ios') {
+      return <InputAccessoryView>{composer}</InputAccessoryView>;
+    }
 
-  return composer;
-});
+    return composer;
+  },
+);
 
 const s = StyleSheet.create({
   container: {
@@ -67,5 +80,8 @@ const s = StyleSheet.create({
     right: BUTTON_OFFSET,
     bottom: BUTTON_OFFSET,
     position: 'absolute',
+  },
+  icon: {
+    marginLeft: 5,
   },
 });
