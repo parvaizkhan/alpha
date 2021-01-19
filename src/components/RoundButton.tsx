@@ -6,6 +6,10 @@ import {
   TouchableOpacity,
   TouchableOpacityProps,
 } from 'react-native';
+import {useTheme} from '@shopify/restyle';
+
+import {Theme} from '@alpha/theme';
+import {StylesGenerator, useStyles} from '@alpha/hooks';
 
 const DEFAULT_RADIUS = 23;
 
@@ -15,6 +19,9 @@ type RoundButtonProps = {
 } & TouchableOpacityProps;
 export const RoundButton: React.FC<RoundButtonProps> = React.memo(
   ({children, style, radius = DEFAULT_RADIUS, disabled, ...props}) => {
+    const {colors} = useTheme<Theme>();
+    const s = useStyles(makeStyles);
+
     const containerStyles: ViewStyle = useMemo(
       () => ({
         width: radius * 2,
@@ -33,7 +40,11 @@ export const RoundButton: React.FC<RoundButtonProps> = React.memo(
           s.container,
           containerStyles,
           StyleSheet.flatten(style),
-          {backgroundColor: disabled ? '#ddd' : '#ccc'},
+          {
+            backgroundColor: disabled
+              ? colors.sendButtonInactive
+              : colors.sendButtonActive,
+          },
         ]}>
         {children}
       </TouchableOpacity>
@@ -41,10 +52,10 @@ export const RoundButton: React.FC<RoundButtonProps> = React.memo(
   },
 );
 
-const s = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    backgroundColor: '#ccc',
-    justifyContent: 'center',
-  },
-});
+const makeStyles: StylesGenerator = () =>
+  StyleSheet.create({
+    container: {
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });
