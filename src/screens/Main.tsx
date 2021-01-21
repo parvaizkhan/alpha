@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import {
   View,
   FlatList,
@@ -6,16 +6,30 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
 } from 'react-native';
+import auth from '@react-native-firebase/auth';
 
-import {Composer} from '@alpha/components';
-import {useStyles, StylesGenerator} from './hooks';
-import {useHeaderHeight} from '@react-navigation/stack';
+import {Composer, LogoutButton} from '@alpha/components';
+import {useStyles, StylesGenerator} from '../hooks';
+import {useHeaderHeight, StackScreenProps} from '@react-navigation/stack';
+import {AppRoutes} from '../Alpha';
 
-const Main = () => {
+type Props = StackScreenProps<AppRoutes, 'Main'>;
+
+const Main = (props: Props) => {
   const [message, onChangeMessage] = useState('');
 
   const s = useStyles(makeStyles);
   const headerheight = useHeaderHeight();
+
+  const handleLogout = useCallback(async () => {
+    await auth().signOut();
+  }, []);
+
+  useEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => <LogoutButton onPress={handleLogout} />,
+    });
+  }, [props.navigation, handleLogout]);
 
   const renderItem = useCallback(() => <></>, []);
 

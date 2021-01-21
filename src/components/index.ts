@@ -1,3 +1,4 @@
+export * from './LogoutButton';
 export * from './RoundButton';
 export * from './TextInput';
 export * from './Composer';
