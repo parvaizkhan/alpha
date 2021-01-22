@@ -1,4 +1,9 @@
 PODS:
+  - AppAuth (1.4.0):
+    - AppAuth/Core (= 1.4.0)
+    - AppAuth/ExternalUserAgent (= 1.4.0)
+  - AppAuth/Core (1.4.0)
+  - AppAuth/ExternalUserAgent (1.4.0)
   - boost-for-react-native (1.63.0)
   - CocoaAsyncSocket (7.6.5)
   - CocoaLibEvent (1.0.0)
@@ -88,6 +93,10 @@ PODS:
   - glog (0.3.5)
   - GoogleDataTransport (8.2.0):
     - nanopb (~> 2.30907.0)
+  - GoogleSignIn (5.0.2):
+    - AppAuth (~> 1.2)
+    - GTMAppAuth (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
   - GoogleUtilities/AppDelegateSwizzler (7.2.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -103,7 +112,14 @@ PODS:
   - "GoogleUtilities/NSData+zlib (7.2.0)"
   - GoogleUtilities/Reachability (7.2.0):
     - GoogleUtilities/Logger
+  - GTMAppAuth (1.1.0):
+    - AppAuth/Core (~> 1.4)
+    - GTMSessionFetcher (~> 1.4)
+  - GTMSessionFetcher (1.5.0):
+    - GTMSessionFetcher/Full (= 1.5.0)
   - GTMSessionFetcher/Core (1.5.0)
+  - GTMSessionFetcher/Full (1.5.0):
+    - GTMSessionFetcher/Core (= 1.5.0)
   - nanopb (2.30907.0):
     - nanopb/decode (= 2.30907.0)
     - nanopb/encode (= 2.30907.0)
@@ -352,6 +368,9 @@ PODS:
     - RNFBApp
   - RNGestureHandler (1.9.0):
     - React-Core
+  - RNGoogleSignin (5.0.0):
+    - GoogleSignIn (~> 5.0.0)
+    - React-Core
   - RNReanimated (2.0.0-rc.2):
     - DoubleConversion
     - FBLazyVector
@@ -414,6 +433,7 @@ DEPENDENCIES:
   - FlipperKit/SKIOSNetworkPlugin (~> 0.54.0)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - GoogleSignIn (~> 5.0.2)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
@@ -441,6 +461,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - "RNGoogleSignin (from `../node_modules/@react-native-community/google-signin`)"
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -448,6 +469,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AppAuth
     - boost-for-react-native
     - CocoaAsyncSocket
     - CocoaLibEvent
@@ -463,7 +485,9 @@ SPEC REPOS:
     - Flipper-RSocket
     - FlipperKit
     - GoogleDataTransport
+    - GoogleSignIn
     - GoogleUtilities
+    - GTMAppAuth
     - GTMSessionFetcher
     - nanopb
     - OpenSSL-Universal
@@ -531,6 +555,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/auth"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNGoogleSignin:
+    :path: "../node_modules/@react-native-community/google-signin"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -541,6 +567,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
@@ -561,7 +588,9 @@ SPEC CHECKSUMS:
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   GoogleDataTransport: 1024b1a4dfbd7a0e92cb20d7e0a6f1fb66b449a4
+  GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GoogleUtilities: d866834472f1324d080496bc67ab3ce5d0d46027
+  GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   OpenSSL-Universal: ff34003318d5e1163e9529b08470708e389ffcdd
@@ -591,12 +620,13 @@ SPEC CHECKSUMS:
   RNFBApp: 43a062dc6a1a88edd934d2229d1ba64f25381598
   RNFBAuth: b5b1ba3df98f23b1f41829b762477ccb60b0e747
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
+  RNGoogleSignin: ad866d4c4af2651e36801dd3b7771d7715353499
   RNReanimated: e8a1520b15df106c96214161078c69e4a23b8b29
   RNScreens: 45c457af3d2ee9e08fc01e70da87e653d46b1198
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: bbea3edcd036febc9dacf36c61908b66d64f3095
+PODFILE CHECKSUM: fbe707b59171b44dbe87386cee39f718932d527d
 
 COCOAPODS: 1.9.3
