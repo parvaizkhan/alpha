@@ -22,6 +22,7 @@ const theme = createTheme({
     borderColor: palette.gray,
     titleText: palette.black,
     white: 'white',
+    black: palette.black,
     buttonPrimary: palette.primary,
   },
   spacing: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, ViewProps} from 'react-native';
 
-import {StylesGenerator, useStyles} from '@alpha/hooks';
+import {useStyles} from '@alpha/hooks';
 import {FORM_CONTROL_HEIGHT, FORM_CONTROL_RADIUS} from '@alpha/constants';
 
 export const Control: React.FC<ViewProps> = ({children, style, ...props}) => {
@@ -14,7 +14,7 @@ export const Control: React.FC<ViewProps> = ({children, style, ...props}) => {
   );
 };
 
-export const makeControlStyles: StylesGenerator = () =>
+export const makeControlStyles = () =>
   StyleSheet.create({
     container: {
       minHeight: FORM_CONTROL_HEIGHT,

@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import {StylesGenerator, useStyles} from '@alpha/hooks';
+import {useStyles, Theme} from '@alpha/hooks';
 import {Button} from './Button';
 
 export type LogoutButtonProps = {
@@ -12,13 +12,13 @@ export const LogoutButton = React.memo<LogoutButtonProps>(({onPress}) => {
   const s = useStyles(makeStyles);
 
   return (
-    <Button vanilla {...{onPress}} style={s.container}>
+    <Button vanilla {...{onPress}}>
       <Icon name={'exit-outline'} size={25} style={s.icon} />
     </Button>
   );
 });
 
-const makeStyles: StylesGenerator = ({spacing}) =>
+const makeStyles = ({spacing}: Theme) =>
   StyleSheet.create({
     icon: {
       marginHorizontal: spacing.m,

@@ -1,15 +1,16 @@
 import {useMemo} from 'react';
-import {StyleSheet} from 'react-native';
 import {useTheme as UseAppTheme} from '@shopify/restyle';
 import {useSafeAreaInsets, EdgeInsets} from 'react-native-safe-area-context';
 
 import {Theme} from '@alpha/theme';
 
+export type {Theme, EdgeInsets};
+
 export const useTheme = () => UseAppTheme<Theme>();
 
-type Styles = ReturnType<typeof StyleSheet.create>;
-export type StylesGenerator = (theme: Theme, insets: EdgeInsets) => Styles;
-export function useStyles(getThemedStyle: StylesGenerator): Styles {
+export function useStyles<T>(
+  getThemedStyle: (theme: Theme, insets: EdgeInsets) => T,
+): T {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
 

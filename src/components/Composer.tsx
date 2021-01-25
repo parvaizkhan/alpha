@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import {TextInput} from './TextInput';
 import {RoundButton} from './RoundButton';
-import {useTheme, useStyles, StylesGenerator} from '@alpha/hooks';
+import {useTheme, useStyles, Theme} from '@alpha/hooks';
 import {FORM_CONTROL_RADIUS, FORM_CONTROL_HEIGHT} from '@alpha/constants';
 
 const BUTTON_OFFSET = 3;
@@ -43,7 +43,7 @@ export const Composer: React.FC<ComposerProps> = React.memo(
   },
 );
 
-const makeStyles: StylesGenerator = ({spacing}) =>
+const makeStyles = ({spacing}: Theme) =>
   StyleSheet.create({
     container: {
       paddingVertical: spacing.m,

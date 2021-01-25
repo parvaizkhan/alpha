@@ -7,10 +7,10 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
-
-import {Composer, LogoutButton} from '@alpha/components';
-import {useStyles, StylesGenerator} from '../hooks';
 import {useHeaderHeight, StackScreenProps} from '@react-navigation/stack';
+
+import {Composer, LogoutButton, Avatar} from '@alpha/components';
+import {useStyles, Theme, EdgeInsets} from '../hooks';
 import {AppRoutes} from '../Alpha';
 
 type Props = StackScreenProps<AppRoutes, 'Main'>;
@@ -28,6 +28,7 @@ const Main = (props: Props) => {
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => <LogoutButton onPress={handleLogout} />,
+      headerLeft: () => <Avatar uri={auth().currentUser?.photoURL ?? ''} />,
     });
   }, [props.navigation, handleLogout]);
 
@@ -52,7 +53,7 @@ const Main = (props: Props) => {
   );
 };
 
-const makeStyles: StylesGenerator = ({colors}, insets) =>
+const makeStyles = ({colors}: Theme, insets: EdgeInsets) =>
   StyleSheet.create({
     container: {
       flex: 1,

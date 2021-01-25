@@ -9,7 +9,7 @@ import {
 import {useTheme} from '@shopify/restyle';
 
 import {Theme} from '@alpha/theme';
-import {StylesGenerator, useStyles} from '@alpha/hooks';
+import {useStyles} from '@alpha/hooks';
 
 const DEFAULT_RADIUS = 23;
 
@@ -52,7 +52,7 @@ export const RoundButton: React.FC<RoundButtonProps> = React.memo(
   },
 );
 
-const makeStyles: StylesGenerator = () =>
+const makeStyles = () =>
   StyleSheet.create({
     container: {
       alignItems: 'center',

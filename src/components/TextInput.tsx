@@ -6,7 +6,7 @@ import {
   TextInput as RNTextInput,
 } from 'react-native';
 
-import {useStyles, StylesGenerator} from '@alpha/hooks';
+import {useStyles, Theme} from '@alpha/hooks';
 import {makeControlStyles} from './Layouts';
 
 export const TextInput = React.memo<TextInputProps>(({style, ...props}) => {
@@ -23,7 +23,7 @@ export const TextInput = React.memo<TextInputProps>(({style, ...props}) => {
   );
 });
 
-const makeStyles: StylesGenerator = ({colors, spacing}) =>
+const makeStyles = ({colors, spacing}: Theme) =>
   StyleSheet.create({
     container: {
       borderWidth: 1,
