@@ -1,28 +1,32 @@
 import React, {useState, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 
+import {generateAppUser} from '@alpha/utils';
 import {BRANDING} from '@alpha/constants';
+import {User} from '@alpha/types';
 
 import Main from '@alpha/screens/Main';
 import Authentication from '@alpha/screens/Authentication';
 
 export type AppRoutes = {
   Authentication: undefined;
-  Main: undefined;
+  Main: {user: User};
 };
 
 const Stack = createStackNavigator<AppRoutes>();
 
 function Alpha() {
   const [isInitializing, setIsInitializing] = useState(true);
-  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+  const [user, setUser] = useState<User>();
 
   useEffect(
     () =>
       auth().onAuthStateChanged((appUser) => {
-        setUser(appUser);
+        if (appUser) {
+          setUser(generateAppUser(appUser));
+        }
         if (isInitializing) {
           setIsInitializing(false);
         }
@@ -42,6 +46,7 @@ function Alpha() {
             name="Main"
             component={Main}
             options={{title: BRANDING}}
+            initialParams={{user}}
           />
         ) : (
           <Stack.Screen

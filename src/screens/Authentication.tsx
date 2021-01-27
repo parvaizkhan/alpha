@@ -7,7 +7,10 @@ import {useStyles, Theme} from '@alpha/hooks';
 import {Text, Button} from '@alpha/components';
 import {BRANDING} from '@alpha/constants';
 
-GoogleSignin.configure();
+GoogleSignin.configure({
+  webClientId:
+    '948195926811-sfsegt0psik9sc2ga9gv2pu2bt3deiqv.apps.googleusercontent.com',
+});
 
 type SignInMethods = 'google' | 'anonymous';
 
@@ -30,10 +33,11 @@ const Authentication = () => {
     try {
       setInProgress('google');
       const {idToken} = await GoogleSignin.signIn();
+      console.log(idToken);
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
       await auth().signInWithCredential(googleCredential);
     } catch (error) {
-      console.log(error);
+      console.log('error', error);
     } finally {
       setInProgress('idle');
     }
