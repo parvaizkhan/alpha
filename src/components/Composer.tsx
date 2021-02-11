@@ -13,9 +13,10 @@ const BUTTON_RADIUS = FORM_CONTROL_RADIUS - BUTTON_OFFSET;
 type ComposerProps = {
   message: string;
   onChangeMessage(text: string): void;
+  onSubmit?(): void;
 } & Omit<TextInputProps, 'value' | 'onChangeText'>;
 export const Composer: React.FC<ComposerProps> = React.memo(
-  ({message, onChangeMessage, ...props}) => {
+  ({message, onChangeMessage, onSubmit, ...props}) => {
     const {colors} = useTheme();
     const s = useStyles(makeStyles);
 
@@ -32,6 +33,7 @@ export const Composer: React.FC<ComposerProps> = React.memo(
             onChangeText={onChangeMessage}
           />
           <RoundButton
+            onPress={onSubmit}
             disabled={!message}
             radius={BUTTON_RADIUS}
             style={s.button}>

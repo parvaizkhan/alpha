@@ -12,11 +12,12 @@ export type MessageBoxProps = {
 };
 export const MessageBox = React.memo<MessageBoxProps>((props) => {
   const {message, isFirst} = props;
+  const data = message.data();
 
   const s = useStyles(makeStyles);
   const {user} = useStore();
 
-  const position = message.ownerID === user.uid ? 'right' : 'left';
+  const position = data?.uid === user.uid ? 'right' : 'left';
 
   return (
     <View style={s.container}>

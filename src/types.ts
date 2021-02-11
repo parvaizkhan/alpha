@@ -1,3 +1,9 @@
+import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
+
+export type Dictionary<T> = {
+  [key: string]: T;
+};
+
 export type User = {
   uid: string;
   displayName: string | null;
@@ -9,8 +15,9 @@ export type User = {
   providerId: string;
 };
 
-export type Message = {
-  id: string;
-  ownerID: string;
+export type MessagePayload = {
+  uid: string;
   text: string;
+  createdAt: FirebaseFirestoreTypes.Timestamp | null;
 };
+export type Message = FirebaseFirestoreTypes.QueryDocumentSnapshot<MessagePayload>;

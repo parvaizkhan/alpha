@@ -10,11 +10,12 @@ export type MessageContentProps = {
 };
 export const MessageContent = React.memo<MessageContentProps>((props) => {
   const {message} = props;
+  const data = message.data();
   const s = useStyles(makeStyles);
 
   return (
     <View style={s.container}>
-      <Text>{message.text}</Text>
+      <Text>{data?.text}</Text>
     </View>
   );
 });

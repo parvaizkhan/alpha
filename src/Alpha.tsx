@@ -19,14 +19,12 @@ const Stack = createStackNavigator<AppRoutes>();
 
 function Alpha() {
   const [isInitializing, setIsInitializing] = useState(true);
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(
     () =>
       auth().onAuthStateChanged((appUser) => {
-        if (appUser) {
-          setUser(generateAppUser(appUser));
-        }
+        setUser(appUser && generateAppUser(appUser));
         if (isInitializing) {
           setIsInitializing(false);
         }
