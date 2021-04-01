@@ -1,5 +1,9 @@
 import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
 
+export type ActionBase<K, V = void> = V extends void
+  ? {type: K}
+  : {type: K} & V;
+
 export type Dictionary<T> = {
   [key: string]: T;
 };
