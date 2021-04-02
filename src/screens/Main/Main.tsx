@@ -1,19 +1,27 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState, useMemo} from 'react';
 import {
-  FlatList,
+  SectionList,
   KeyboardAvoidingView,
-  ListRenderItem,
+  SectionListRenderItem,
   Platform,
   StyleSheet,
   View,
+  SectionListData,
 } from 'react-native';
 import {StackScreenProps, useHeaderHeight} from '@react-navigation/stack';
 import auth, {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
-import {Avatar, Composer, LogoutButton, MessageBox} from '@alpha/components';
+import {
+  Avatar,
+  Composer,
+  LogoutButton,
+  MessageBox,
+  Text,
+} from '@alpha/components';
 import {StoreContext} from '@alpha/store';
 import {Message, MessagePayload} from '@alpha/types';
+import {groupMessagesByDate, formatDateRelative} from '@alpha/utils';
 
 import {AppRoutes} from '../../Alpha';
 import {EdgeInsets, Theme, useStyles} from '../../hooks';
@@ -23,6 +31,7 @@ const db = firestore();
 
 const messagesRef = db.collection<MessagePayload>('chatrooms/alpha/messages');
 
+type Section = ReturnType<typeof groupMessagesByDate>[0];
 type Props = StackScreenProps<AppRoutes, 'Main'>;
 
 const Main = (props: Props) => {
@@ -50,8 +59,19 @@ const Main = (props: Props) => {
     });
   }, [props.navigation, handleLogout]);
 
-  const renderItem = useCallback<ListRenderItem<Message>>(
-    ({item, index}) => <MessageBox message={item} isFirst={index === 0} />,
+  const renderItem = useCallback<SectionListRenderItem<Message, Section>>(
+    ({item, section: {index}}) => (
+      <MessageBox message={item} isFirst={index === 0} />
+    ),
+    [],
+  );
+
+  const renderSectionFooter = useCallback(
+    ({section: {title}}: {section: SectionListData<Message, Section>}) => (
+      <View style={s.sectionFooter}>
+        <Text style={s.date}>{formatDateRelative(new Date(title))}</Text>
+      </View>
+    ),
     [],
   );
 
@@ -67,6 +87,8 @@ const Main = (props: Props) => {
     });
   }, [message, user]);
 
+  const data = useMemo(() => groupMessagesByDate(messages), [messages]);
+
   return (
     <StoreContext.Provider value={{user}}>
       <View style={s.container}>
@@ -75,17 +97,18 @@ const Main = (props: Props) => {
           style={s.content}
           enabled={Platform.OS === 'ios'}
           keyboardVerticalOffset={headerheight}>
-          <FlatList
+          <SectionList<Message, Section>
             inverted
-            data={messages}
+            sections={data}
             contentContainerStyle={s.list}
             showsVerticalScrollIndicator={false}
             keyExtractor={(_, i) => i.toString()}
             keyboardShouldPersistTaps={'handled'}
             onEndReached={handleOnEndReached}
-            onEndReachedThreshold={0}
+            onEndReachedThreshold={0.5}
             ItemSeparatorComponent={() => <View style={s.separator} />}
-            {...{renderItem}}
+            SectionSeparatorComponent={() => <View style={s.separator} />}
+            {...{renderItem, renderSectionFooter}}
           />
           <Composer {...{message, onChangeMessage, onSubmit}} />
         </KeyboardAvoidingView>
@@ -109,6 +132,13 @@ const makeStyles = ({colors, spacing}: Theme, insets: EdgeInsets) =>
       padding: spacing.m,
     },
     separator: {height: 10},
+    sectionFooter: {
+      padding: spacing.s,
+    },
+    date: {
+      textAlign: 'center',
+      color: colors.groupDate,
+    },
   });
 
 export default Main;

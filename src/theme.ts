@@ -23,6 +23,7 @@ const theme = createTheme({
     titleText: palette.black,
     white: 'white',
     black: palette.black,
+    groupDate: '#898989',
     buttonPrimary: palette.primary,
   },
   spacing: {
