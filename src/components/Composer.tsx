@@ -54,6 +54,8 @@ const makeStyles = ({spacing}: Theme) =>
     },
     textInput: {
       maxHeight: 148,
+      paddingLeft: 18,
+      paddingRight: FORM_CONTROL_HEIGHT,
     },
     button: {
       right: BUTTON_OFFSET,

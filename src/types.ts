@@ -20,7 +20,11 @@ export type User = {
 };
 
 export type MessagePayload = {
-  uid: string;
+  createdBy: {
+    uid: string;
+    displayName: string | null;
+    photoURL: string | null;
+  };
   text: string;
   createdAt: FirebaseFirestoreTypes.Timestamp | null;
 };

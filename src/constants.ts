@@ -15,3 +15,5 @@ export const EMPTY_USER: User = {
   photoURL: null,
   providerId: '',
 };
+
+export const ANONYMOUS_NAME = 'Anonymous';

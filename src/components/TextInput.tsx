@@ -27,7 +27,6 @@ const makeStyles = ({colors, spacing}: Theme) =>
   StyleSheet.create({
     container: {
       borderWidth: 1,
-      paddingHorizontal: 18,
       paddingTop: spacing.s,
       backgroundColor: 'white',
       paddingBottom: spacing.s,

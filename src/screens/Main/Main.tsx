@@ -26,6 +26,7 @@ import {groupMessagesByDate, formatDateRelative} from '@alpha/utils';
 import {AppRoutes} from '../../Alpha';
 import {EdgeInsets, Theme, useStyles} from '../../hooks';
 import useMessages from './useMessages';
+import {ANONYMOUS_NAME} from '@alpha/constants';
 
 const db = firestore();
 
@@ -60,8 +61,12 @@ const Main = (props: Props) => {
   }, [props.navigation, handleLogout]);
 
   const renderItem = useCallback<SectionListRenderItem<Message, Section>>(
-    ({item, section: {index}}) => (
-      <MessageBox message={item} isFirst={index === 0} />
+    ({item, section: {index: sectionIndex, data}, index}) => (
+      <MessageBox
+        message={item}
+        isFirst={index === 0 && sectionIndex === 0}
+        previousMessage={data[index + 1]}
+      />
     ),
     [],
   );
@@ -76,18 +81,25 @@ const Main = (props: Props) => {
   );
 
   const onSubmit = useCallback(() => {
-    const {uid, photoURL} = user;
+    const {uid, photoURL, displayName, isAnonymous} = user;
     onChangeMessage('');
-    messagesRef.add({
-      uid,
-      photoURL,
-      text: message,
-      // @ts-ignore
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    });
+    messagesRef
+      .add({
+        createdBy: {
+          uid,
+          displayName: isAnonymous ? ANONYMOUS_NAME : displayName,
+          photoURL,
+        },
+        text: message,
+        // @ts-ignore
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+      .catch((e) => console.log(e));
   }, [message, user]);
 
   const data = useMemo(() => groupMessagesByDate(messages), [messages]);
+
+  console.log(messages, data);
 
   return (
     <StoreContext.Provider value={{user}}>

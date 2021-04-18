@@ -6,9 +6,11 @@ const palette = {
   primaryLight: '#9ba4b4',
 
   gray: '#ccc',
+  lightGray: '#898989',
 
   black: '#0B0B0B',
   white: '#f1f6f9',
+  oceanBlue: '#0067b1',
 };
 
 const theme = createTheme({
@@ -23,8 +25,11 @@ const theme = createTheme({
     titleText: palette.black,
     white: 'white',
     black: palette.black,
-    groupDate: '#898989',
+    groupDate: palette.lightGray,
+    messageTime: palette.lightGray,
     buttonPrimary: palette.primary,
+    linkColor: palette.oceanBlue,
+    loading: palette.oceanBlue,
   },
   spacing: {
     s: 5,

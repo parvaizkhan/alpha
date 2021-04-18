@@ -4,6 +4,7 @@ import {useStyles, Theme} from '@alpha/hooks';
 import {Message} from '@alpha/types';
 
 import {Text} from '../../Text';
+import {TextMessage} from '@alpha/components';
 
 export type MessageContentProps = {
   message: Message;
@@ -15,7 +16,7 @@ export const MessageContent = React.memo<MessageContentProps>((props) => {
 
   return (
     <View style={s.container}>
-      <Text>{data?.text}</Text>
+      <TextMessage text={data?.text} />
     </View>
   );
 });
